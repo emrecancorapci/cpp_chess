@@ -3,12 +3,15 @@
 
 #include "ChessEngine.h"
 
-chess_engine::chess_engine() : chessBoard(new chess_board) {}
+chess_engine::chess_engine() : chessBoard(new chess_board) {chessBoard->new_board();}
 
-void DrawPiece(const Piece& piece);
-char PieceState(const int& state);
-char PieceType(const int& type);
-std::vector<int> PositionTranslator(std::string pos);
+struct vector2
+{
+	int x;
+	int y;
+};
+
+vector2 convert_vector2(std::string pos);
 
 void chess_engine::new_match() const
 {
@@ -17,89 +20,109 @@ void chess_engine::new_match() const
 
 void chess_engine::select_piece(const std::string& piece) const
 {
-	auto* board = chessBoard->get_board();
-	std::vector<int> position = PositionTranslator(piece);
+	const vector2 position = convert_vector2(piece);
 
-	(*board)[position[0]][position[1]].state = SELECTED;
+	chessBoard->get_piece_ptr(position.x, position.y)->set_state(SELECTED);
 }
 
 
-int chess_engine::update(const std::string& from, const std::string& to) const
+void chess_engine::update_board(const std::string& from, const std::string& to) const
 {
-	auto* board = chessBoard->get_board();
+	const vector2 pos_from = convert_vector2(from);
+	const vector2 pos_to = convert_vector2(to);
 
-	const auto pos_from = PositionTranslator(from);
-	const auto pos_to = PositionTranslator(to);
-
-	// Get piece and clear
-	Piece piece = (*board)[pos_from[0]][pos_from[1]];
-	(*board)[pos_from[0]][pos_from[1]].clear();
+	// Get piece
+	const Piece piece = chessBoard->get_piece(pos_from.x,pos_from.y);
 
 	// Put piece
-	piece.state = NORMAL;
-	(*board)[pos_to[0]][pos_to[1]] = piece;
+	chessBoard->put_piece(piece, pos_to.x, pos_to.y);
+	chessBoard->get_piece_ptr(pos_from.x,pos_from.y)->set_state(NORMAL);
 
-	return 1;
+	// Clear before
+	chessBoard->clear_pos(pos_from.x,pos_from.y);
 }
 
-void chess_engine::draw() const
+void chess_engine::draw_board() const
 {
-	const auto* board = chessBoard->get_board();
-
-	for (const auto& row : *board)
+	for (const auto* board = chessBoard->get_board();
+		const auto& row : *board)
 	{
 		std::cout << std::endl;
 
-		for (const auto piece : row)
-			DrawPiece(piece);
+		for (const Piece piece : row)
+			piece.draw();
 
 		std::cout << std::endl;
 	}
 }
 
-
-void DrawPiece(const Piece& piece)
+void chess_engine::run()
 {
-	std::cout << PieceState(piece.state) << PieceType(piece.type) << PieceState(piece.state);
+	while(is_running)
+	{
+		draw_board();
+
+		if (cmd == "exit")
+			state = Exit;
+		else if (cmd == "move")
+			state = Select;
+		else if (cmd == "cancel")
+			state = Decide;
+		else
+			state = Invalid;
+
+		change_state();
+
+		CLEAR
+	}
 }
 
-char PieceState(const int& state)
+int chess_engine::change_state()
 {
 	switch (state)
 	{
-	case SELECTED:
-		return '-';
-	case TARGET:
-		return '|';
-	default:
-		return ' ';
+		case Decide:
+			std::cout << "Decide :" << std::endl;
+			std::cin >> cmd;
+
+			break;
+
+		case Select:
+			std::cout << "Select :" << std::endl;
+			std::cin >> cmd;
+
+			select_piece(cmd);
+			from = cmd;
+
+			state = Move;
+			break;
+
+		case Move:
+			std::cout << "Move :" << std::endl;
+			std::cin >> cmd;
+
+			update_board(from, cmd);
+
+			state = Decide;
+
+			break;
+
+		case Exit:
+			is_running = false;
+			break;
+
+		case Invalid:
+			std::cout << "Wrong text!" << std::endl;
+			state = Decide;
+			std::cin >> cmd;
 	}
+	return 1;
 }
 
-char PieceType(const int& type)
+vector2 convert_vector2(const std::string pos)
 {
-	switch (type)
-	{
-	case PAWN:
-		return 'P';
-	case ROCK:
-		return 'R';
-	case KNIGHT:
-		return 'H';
-	case BISHOP:
-		return 'B';
-	case QUEEN:
-		return 'Q';
-	case KING:
-		return 'K';
-	default: 
-		return '_';
-	}
+	const int x = static_cast<int>(pos[0])-96-1;
+	const int y = static_cast<int>(pos[1])-48-1;
+	return vector2{x,y};
 }
 
-std::vector<int> PositionTranslator(std::string pos)
-{
-	int x = int(pos[0])-96-1;
-	int y = int(pos[1])-48-1;
-	return std::vector<int>{x,y};
-}

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <vector>
+#include "Piece.h"
 
 #define WHITE false
 #define BLACK true
@@ -21,29 +22,23 @@
 
 #define PIECES_MATRIX std::vector<std::vector<Piece>>
 
-struct Piece
-{
-	int type;
-	bool color;
-	int state;
-
-	void clear()
-	{
-	type = EMPTY;
-	color = NULL;
-	state = NORMAL;
-	}
-};
-
-
-
 class chess_board
 {
 	PIECES_MATRIX board;
+
+	static void empty_board(PIECES_MATRIX& chessBoard);
+	static void fill_board(PIECES_MATRIX& chessBoard, const bool& color);
 public:
 	chess_board();
+
 	void new_board();
 	void clear_states();
+
+	Piece* get_piece_ptr(const int& row, const int& column);
+	Piece get_piece(const int& row, const int& column) const;
+	void put_piece(Piece piece, const int& row, const int& column);
+	void clear_pos(const int& row, const int& column);
+
+
 	PIECES_MATRIX* get_board();
-	Piece* get_piece(const int& row, const int& column);
 };
