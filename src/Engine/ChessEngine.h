@@ -1,38 +1,38 @@
 ﻿#pragma once
 #include "ChessBoard.h"
+
+#include <iostream>
+#include <array>
 #include <string>
+#include <Windows.h>
 
 #define CLEAR system("cls");
 
 class chess_engine
 {
-	chess_board* chessBoard;
+	chess_board* chessBoard = new chess_board;
 
-	std::string cmd = "cancel";
-	std::string from;
-
-	enum State
+	enum class game_state
 	{
-		Decide,
-		Select,
-		Move,
-		Exit,
-		Invalid
+		decide,
+		select,
+		move,
+		exit,
+		invalid
 	};
 
-	State state = Decide;
+	game_state state = game_state::decide;
+	piece_color turn_color_ = piece_color::white;
+
+	std::string from,to, cmd, message = "";
+
+	bool is_running_ = true;
 
 	int change_state();
-
-	void update_board(const std::string& from, const std::string& to) const;
-	void draw_board() const;
-
-	void select_piece(const std::string& piece) const;
-	bool check_move();
+	bool select_piece(const std::string& piece) const;
 
 
 public:
-	bool is_running = true;
 
 	chess_engine();
 
@@ -40,5 +40,3 @@ public:
 	void new_match() const;
 
 };
-
-

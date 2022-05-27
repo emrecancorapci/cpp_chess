@@ -1,63 +1,55 @@
 ﻿#include "Piece.h"
 
-#include <iostream>
 
-#include "ChessBoard.h"
-
-Piece::Piece(const int type, const bool color) : type(type), color(color) {}
-
-void Piece::set_state(const int state)
-{
-	this->state = state;
-}
-
-int Piece::get_state() const
-{
-	return state;
-}
+Piece::Piece(const piece_type type, const piece_color color) : type(type), color(color) {}
 
 void Piece::clear()
 {
-	type = EMPTY;
-	color = NULL;
-	state = NORMAL;
+	type = piece_type::empty;
+	color = piece_color::nc;
+	state = piece_state::normal;
 }
 
 void Piece::draw() const
 {
-	std::cout << draw_state(state) << draw_type(type) << draw_state(state);
+	if(color == piece_color::white)
+		SetConsoleTextAttribute(console_color, 143);
+	else if (color == piece_color::black)
+		SetConsoleTextAttribute(console_color, 128);
+	else
+		SetConsoleTextAttribute(console_color, 136);
+
+	std::cout	<< states[static_cast<int>(state)]
+				<< types[static_cast<int>(type)]
+				<< states[static_cast<int>(state)];
 }
 
-char draw_state(const int& state)
+void Piece::set_state(const piece_state set)
 {
-	switch (state)
-	{
-	case SELECTED:
-		return '-';
-	case TARGET:
-		return '|';
-	default:
-		return ' ';
-	}
+	state = set;
 }
 
-char draw_type(const int& type)
+void Piece::set_type(const piece_type set)
 {
-	switch (type)
-	{
-	case PAWN:
-		return 'P';
-	case ROCK:
-		return 'R';
-	case KNIGHT:
-		return 'H';
-	case BISHOP:
-		return 'B';
-	case QUEEN:
-		return 'Q';
-	case KING:
-		return 'K';
-	default: 
-		return '_';
-	}
+	type = set;
+}
+
+void Piece::set_color(const piece_color set)
+{
+	color = set;
+}
+
+piece_state Piece::get_state() const
+{
+	return state;
+}
+
+piece_type Piece::get_type() const
+{
+	return type;
+}
+
+piece_color Piece::get_color() const
+{
+	return color;
 }
