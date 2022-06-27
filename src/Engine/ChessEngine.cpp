@@ -18,6 +18,8 @@ void chess_engine::run()
 
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 
+		std::cout << message << std::endl;
+
 		change_state();
 
 		CLEAR
@@ -27,7 +29,6 @@ void chess_engine::run()
 int chess_engine::change_state()
 {
 	bool is_playable;
-	std::cout << message << std::endl;
 
 	switch (state)
 	{
@@ -68,7 +69,9 @@ int chess_engine::change_state()
 		std::cout << "Move :" << std::endl;
 		std::cin >> to;
 
-		is_playable = chessBoard->update(from, to);
+		std::cout << from << "-" << to;
+
+		is_playable = chessBoard->update(from,  to);
 
 		// Check move gonna implemented
 
@@ -100,16 +103,16 @@ int chess_engine::change_state()
 	return 1;
 }
 
-bool chess_engine::select_piece(const std::string& piece) const
+bool chess_engine::select_piece(const std::string& position) const
 {
-	const auto piece_color = chessBoard->get_piece_ptr(piece)->get_color();
-	const bool is_playable = piece_color == turn_color_;
-
-	if (is_playable)
-	{
-		chessBoard->get_piece_ptr(piece)->set_state(piece_state::selected);
-		return true;
-	}
-	else
+	const auto piece = chessBoard->get_piece(position);
+	if (piece == nullptr)
 		return false;
+
+	const bool is_colors_match = piece->get_color() == turn_color_;
+
+	if (is_colors_match)
+		piece->set_state(piece_state::selected);
+
+	return is_colors_match;
 }

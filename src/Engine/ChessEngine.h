@@ -24,12 +24,15 @@ class chess_engine
 	game_state state = game_state::decide;
 	piece_color turn_color_ = piece_color::white;
 
-	std::string from,to, cmd, message = "";
+	std::string from;
+	std::string to;
+	std::string cmd;
+	std::string message = "";
 
 	bool is_running_ = true;
 
 	int change_state();
-	bool select_piece(const std::string& piece) const;
+	bool select_piece(const std::string& position) const;
 
 
 public:

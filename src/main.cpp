@@ -3,6 +3,5 @@
 int main()
 {
 	chess_engine engine;
-
 	engine.run();
 }
