@@ -1,11 +1,6 @@
-﻿#include "state_decide.h"
+﻿#include "StateDecide.h"
 
-state_decide::state_decide()
-{
-
-}
-
-void state_decide::init_state(const bool& is_turn_white) const
+void StateDecide::init_state(const bool& is_turn_white) const
 {
 	//std::string command;
 

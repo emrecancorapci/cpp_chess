@@ -1,12 +1,11 @@
 ﻿#pragma once
-#include "state_base.h"
+#include "StateBase.h"
 #include <iostream>
 
-class state_decide : public state_base
+class StateDecide : public StateBase
 {
 private:
 	
 public:
-	state_decide();
 	void init_state(const bool& is_turn_white) const override;
 };

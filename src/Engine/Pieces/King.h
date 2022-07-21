@@ -4,10 +4,10 @@
 class King final : public Piece
 {
 private :
-	const char type_txt = 'K';
-
+	const char type_char = 'K';
+	
 public:
-	King(const vector2& pos, const bool& is_white);
+	King(const vector2& pos, const bool& is_white) : Piece(pos, is_white, 'K') {}
 
 	void show_moves(std::vector<std::vector<Piece>> board) const override;
 };

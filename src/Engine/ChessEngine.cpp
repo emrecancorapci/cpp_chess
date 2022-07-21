@@ -1,32 +1,27 @@
 #include "ChessEngine.h"
 
-chess_engine::chess_engine()
+ChessEngine::ChessEngine()
+{
+	chessBoard = new ChessBoard;
+	new_match();
+}
+
+void ChessEngine::new_match() const
 {
 	chessBoard->new_board();
 }
 
-void chess_engine::new_match() const
-{
-	chessBoard->new_board();
-}
-
-void chess_engine::run()
+void ChessEngine::run()
 {
 	while(is_running_)
 	{
-		chessBoard->draw();
-
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-
-		std::cout << message << std::endl;
-
+		chessBoard->draw(message);
 		change_state();
-
 		CLEAR
 	}
 }
 
-int chess_engine::change_state()
+int ChessEngine::change_state()
 {
 	bool is_playable;
 
@@ -50,7 +45,7 @@ int chess_engine::change_state()
 		std::cout << "Select piece:" << std::endl;
 		std::cin >> from;
 
-		is_playable = select_piece(from);
+		is_playable = chessBoard->is_playable(from, is_white_turn);
 
 		if (is_playable)
 		{
@@ -71,14 +66,13 @@ int chess_engine::change_state()
 
 		std::cout << from << "-" << to;
 
-		is_playable = chessBoard->update(from,  to);
+		is_playable = chessBoard->check_move(from, to);
 
-		// Check move gonna implemented
-
-		if (true)
+		if (is_playable)
 		{
+			chessBoard->update(from,  to);
 			message = from + " moved to " + to;
-			is_white_turn = is_white_turn ? false : true;
+			change_turn();
 		}
 
 
@@ -96,16 +90,7 @@ int chess_engine::change_state()
 	return 1;
 }
 
-bool chess_engine::select_piece(const std::string& position) const
+void ChessEngine::change_turn()
 {
-	const auto piece = chessBoard->get_piece(position);
-	if (piece == nullptr)
-		return false;
-
-	const bool is_colors_match = piece->get_color() == is_white_turn;
-
-	if (is_colors_match)
-		piece->set_selected(true);
-
-	return is_colors_match;
+	is_white_turn = is_white_turn ? false : true;
 }

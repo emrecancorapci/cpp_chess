@@ -1,13 +1,13 @@
 ﻿#pragma once
 #include "Piece.h"
 
-class Pawn : public Piece
+class Pawn final : public Piece
 {
 private :
-	const char type_txt = 'P';
+	const char type_char = 'P';
 
 public:
-	Pawn(const vector2& pos, const bool& is_white);
+	Pawn(const vector2& pos, const bool& is_white) : Piece(pos, is_white, 'P') {}
 
 	void show_moves(std::vector<std::vector<Piece>> board) const override;
 };

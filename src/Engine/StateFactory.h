@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "state_base.h"
-#include "state_decide.h"
-#include "state_move.h"
+#include "States/StateBase.h"
+#include "States/StateDecide.h"
+#include "States/StateMove.h"
 
 #include <map>
 
-class state_factory
+class StateFactory
 {
 private:
 	enum state_type
@@ -16,11 +16,11 @@ private:
 		exit
 	};
 	
-	std::map<state_type, state_base*> state_map;
+	std::map<state_type, StateBase*> state_map;
 public:
-	explicit state_factory();
+	explicit StateFactory();
 
-	state_base* set_state(const state_type& state_name);
+	StateBase* set_state(const state_type& state_name);
 
 	static state_type get_state_decide() { return decide; }
 	static state_type get_state_select() { return select; }

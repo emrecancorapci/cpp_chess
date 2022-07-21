@@ -2,6 +2,6 @@
 
 int main()
 {
-	chess_engine engine;
+	ChessEngine engine;
 	engine.run();
 }

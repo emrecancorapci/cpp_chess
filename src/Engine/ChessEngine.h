@@ -1,16 +1,13 @@
 ﻿#pragma once
 #include "ChessBoard.h"
-
 #include <iostream>
-#include <array>
-#include <string>
-#include <Windows.h>
 
 #define CLEAR system("cls");
 
-class chess_engine
+class ChessEngine final
 {
-	chess_board* chessBoard = new chess_board;
+private:
+	IBoard* chessBoard;
 
 	enum class game_state
 	{
@@ -27,17 +24,16 @@ class chess_engine
 	std::string from;
 	std::string to;
 	std::string cmd;
-	std::string message = "";
+	std::string message;
 
 	bool is_running_ = true;
 
 	int change_state();
-	bool select_piece(const std::string& position) const;
-
+	void change_turn();
 
 public:
 
-	chess_engine();
+	ChessEngine();
 
 	void run();
 	void new_match() const;

@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include "state_base.h"
+#include "StateBase.h"
 
-class state_move : public state_base
+class StateMove : public StateBase
 {
 public:
 	void init_state(const bool& is_turn_white) const override;

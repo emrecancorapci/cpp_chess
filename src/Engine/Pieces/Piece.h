@@ -15,11 +15,11 @@ vector2 convert_vector2(const std::string& pos);
 class Piece
 {
 protected:
-	Piece(const vector2& pos, const bool& is_white);
+	Piece(const vector2& pos, const bool& is_white, const char& type);
 
 	const HANDLE console_color = GetStdHandle(STD_OUTPUT_HANDLE);
 	const char states[3] = {' ', '_', '|'};
-	char type_txt = 0;
+	char type_txt;
 
 	vector2 position;
 	bool is_white;
@@ -28,21 +28,29 @@ protected:
 	bool targeted;
 
 	bool moved;
-
+	
 public:
 	virtual ~Piece() = default;
 
-	bool get_color() const;
-	bool get_selected() const;
-	bool get_targeted() const;
 	vector2 get_position() const;
+	bool get_color() const;
+	bool is_selected() const;
+	bool is_targeted() const;
 
-	void set_color(bool set);
-	void set_selected(bool set);
-	void set_targeted(bool set);
+	bool check_type(const Piece& piece) const;
+	template <class T> bool check_type() const;
+	
+
+	void set_position(const int& x, const int& y);
+	void set_position(const vector2& pos);
+	void set_color(const bool& set);
+	void set_selected(const bool& set);
+	void set_targeted(const bool& set);
 
 	char get_state() const;
+	void draw_piece() const;
 
-	virtual void draw_piece() const;
 	virtual void show_moves(std::vector<std::vector<Piece>> board) const = 0;
+
 };
+

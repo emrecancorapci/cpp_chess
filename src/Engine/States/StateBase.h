@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <string>
 
-class state_base
+class StateBase
 {
 	enum class game_state
 	{
