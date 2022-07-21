@@ -1,17 +1,13 @@
 ﻿#pragma once
 #include "Piece.h"
 
-class King: public Piece
+class King final : public Piece
 {
 private :
-	static const char type_txt = 'K';
-	static const piece_type type = piece_type::king;
-
-	vector2 position;
+	const char type_txt = 'K';
 
 public:
-	King(vector2 pos, piece_color color);
+	King(const vector2& pos, const bool& is_white);
 
-	void draw_piece() const override;
 	void show_moves(std::vector<std::vector<Piece>> board) const override;
 };

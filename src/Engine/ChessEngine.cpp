@@ -41,7 +41,7 @@ int chess_engine::change_state()
 		else if (cmd == "move")
 		{
 			state = game_state::select;
-			message = turn_color_ == piece_color::white ? "White turn." : "Black turn.";
+			message = is_white_turn ? "White turn." : "Black turn.";
 		}
 
 		break;
@@ -78,14 +78,7 @@ int chess_engine::change_state()
 		if (true)
 		{
 			message = from + " moved to " + to;
-			if (turn_color_ == piece_color::white)
-			{
-				turn_color_ = piece_color::black;
-			}
-			else
-			{
-				turn_color_ = piece_color::white;
-			}
+			is_white_turn = is_white_turn ? false : true;
 		}
 
 
@@ -109,10 +102,10 @@ bool chess_engine::select_piece(const std::string& position) const
 	if (piece == nullptr)
 		return false;
 
-	const bool is_colors_match = piece->get_color() == turn_color_;
+	const bool is_colors_match = piece->get_color() == is_white_turn;
 
 	if (is_colors_match)
-		piece->set_state(piece_state::selected);
+		piece->set_selected(true);
 
 	return is_colors_match;
 }

@@ -3,15 +3,11 @@
 
 class Queen : public Piece
 {
-private :
-	static const char type_txt = 'Q';
-	static const piece_type type = piece_type::queen;
-
-	vector2 position;
+private:
+	const char type_txt = 'Q';
 
 public:
-	Queen(vector2 pos, piece_color color);
-
-	void draw_piece() const override;
+	Queen(const vector2& pos, const bool& is_white);
+	
 	void show_moves(std::vector<std::vector<Piece>> board) const override;
 };

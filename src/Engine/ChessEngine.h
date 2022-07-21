@@ -22,7 +22,7 @@ class chess_engine
 	};
 
 	game_state state = game_state::decide;
-	piece_color turn_color_ = piece_color::white;
+	bool is_white_turn = true;
 
 	std::string from;
 	std::string to;

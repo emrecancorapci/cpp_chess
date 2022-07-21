@@ -4,14 +4,10 @@
 class Rock : public Piece
 {
 private :
-	static const char type_txt = 'R';
-	static const piece_type type = piece_type::rock;
-
-	vector2 position;
+	const char type_txt = 'R';
 
 public:
-	Rock(vector2 pos, piece_color color);
+	Rock(const vector2& pos, const bool& is_white);
 
-	void draw_piece() const override;
 	void show_moves(std::vector<std::vector<Piece>> board) const override;
 };

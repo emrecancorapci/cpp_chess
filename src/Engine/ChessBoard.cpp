@@ -1,5 +1,4 @@
 ﻿#include "ChessBoard.h"
-#include <algorithm>
 
 chess_board::chess_board()
 {
@@ -14,8 +13,8 @@ std::vector<std::vector<Piece*>>* chess_board::get_board()
 void chess_board::new_board()
 {
 	empty_board();
-	fill_board(piece_color::white);
-	fill_board(piece_color::black);
+	fill_board(true);
+	fill_board(false);
 }
 
 void chess_board::empty_board()
@@ -25,28 +24,29 @@ void chess_board::empty_board()
 		COLUMN, nullptr));
 }
 
-void chess_board::fill_board(const piece_color& color)
+void chess_board::fill_board(const bool& is_white)
 {
+	PieceFactory factory;
 	int row = 0, pawn_row = 1, i = 0;
 
-	if (color == piece_color::white)
+	if (is_white)
 	{
 		row = 7;
 		pawn_row = 6;
 	}
 
-	board[row][0] = new Rock(vector2{row,0}, color);
-	board[row][1] = new Knight(vector2{row,1}, color);
-	board[row][2] = new Bishop(vector2{row,2}, color);
-	board[row][3] = new Queen(vector2{row,3}, color);
-	board[row][4] = new King(vector2{row,4}, color);
-	board[row][5] = new Bishop(vector2{row,5}, color);
-	board[row][6] = new Knight(vector2{row,6}, color);
-	board[row][7] = new Rock(vector2{row,7}, color);
+	board[row][0] = factory.createRock(vector2{ row,0 }, is_white);
+	board[row][1] = factory.createKnight(vector2{row,1}, is_white);
+	board[row][2] = factory.createBishop(vector2{row,2}, is_white);
+	board[row][3] = factory.createQueen(vector2{row,3}, is_white);
+	board[row][4] = factory.createKing(vector2{row,4}, is_white);
+	board[row][5] = factory.createBishop(vector2{row,5}, is_white);
+	board[row][6] = factory.createKnight(vector2{row,6}, is_white);
+	board[row][7] = factory.createRock(vector2{row,7}, is_white);
 
 	for(auto& piece : board[pawn_row])
 	{
-		piece = new Pawn(vector2{pawn_row,i}, color);
+		piece = factory.createPawn(vector2{pawn_row,i}, is_white);
 		i++;
 	}
 }
@@ -145,12 +145,12 @@ void chess_board::draw() const
 
 		for(const auto& piece : row)
 		{
-			if (piece == nullptr)
+			if (piece != nullptr)
 			{
-				std::cout << "   ";
+				piece->draw_piece();
 				continue;
 			}
-			piece->draw_piece();
+			std::cout << "   ";
 		}
 		std::cout << std::endl;
 	}
@@ -158,9 +158,9 @@ void chess_board::draw() const
 	std::cout << std::string( 24, ' ' ) << std::endl;
 }
 
-bool chess_board::is_playable(const std::string& pos, const piece_color& turn_color)
+bool chess_board::is_playable(const std::string& pos, const bool& is_turn_white)
 {
-	return get_piece(pos)->get_color() == turn_color;
+	return get_piece(pos)->get_color() == is_turn_white;
 }
 
 void chess_board::put_piece(const std::string& home, const std::string& target)

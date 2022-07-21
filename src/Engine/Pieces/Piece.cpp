@@ -1,41 +1,22 @@
 ﻿#include "Piece.h"
 
-void Piece::clear()
+Piece::Piece(const vector2& pos, const bool& is_white) : is_white(is_white), position(pos)
 {
-	type = piece_type::empty;
-	color = piece_color::colorless;
-	state = piece_state::normal;
+	selected = false;
+	targeted = false;
+	moved = false;
 }
 
-void Piece::set_state(const piece_state set)
+char Piece::get_state() const
 {
-	state = set;
+	return selected ? states[1] : targeted ? states[2] : states[0];
 }
 
-void Piece::set_color(const piece_color set)
-{
-	color = set;
-}
-
-vector2 Piece::get_pos() const
+vector2 Piece::get_position() const
 {
 	return position;
 }
 
-piece_state Piece::get_state() const
-{
-	return state;
-}
-
-piece_type Piece::get_type() const
-{
-	return type;
-}
-
-piece_color Piece::get_color() const
-{
-	return color;
-}
 
 vector2 convert_vector2(const std::string& pos)
 {
@@ -52,4 +33,14 @@ vector2 vector2::operator-(const vector2& vec2) const
 vector2 vector2::operator+(const vector2& vec2) const
 {
 	return {this->x + vec2.x, this->y + vec2.y};
+}
+
+void Piece::draw_piece() const
+{
+	if (is_white)
+		SetConsoleTextAttribute(console_color, 143);
+	else
+		SetConsoleTextAttribute(console_color, 128);
+
+	std::cout << get_state() << type_txt << get_state();
 }

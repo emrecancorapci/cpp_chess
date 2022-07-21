@@ -4,14 +4,10 @@
 class Knight : public Piece
 {
 private :
-	static const char type_txt = 'H';
-	static const piece_type type = piece_type::knight;
-
-	vector2 position;
+	const char type_txt = 'H';
 
 public:
-	Knight(vector2 pos, piece_color color);
+	Knight(const vector2& pos, const bool& is_white);
 
-	void draw_piece() const override;
 	void show_moves(std::vector<std::vector<Piece>> board) const override;
 };

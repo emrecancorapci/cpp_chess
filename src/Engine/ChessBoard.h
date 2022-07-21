@@ -2,13 +2,7 @@
 
 #include <vector>
 
-#include "Pieces/Piece.h"
-#include "Pieces/Pawn.h"
-#include "Pieces/Rock.h"
-#include "Pieces/Bishop.h"
-#include "Pieces/Knight.h"
-#include "Pieces/Queen.h"
-#include "Pieces/King.h"
+#include "Pieces/PieceFactory.h"
 
 #define ROW 8
 #define COLUMN 8
@@ -19,7 +13,7 @@ private:
 	std::vector<std::vector<Piece*>> board;
 
 	void empty_board();
-	void fill_board(const piece_color& color);
+	void fill_board(const bool& is_white);
 public:
 	chess_board();
 
@@ -38,5 +32,5 @@ public:
 
 
 	std::vector<std::vector<Piece*>>* get_board();
-	bool is_playable(const std::string& pos, const piece_color& turn);
+	bool is_playable(const std::string& pos, const bool& is_turn_white);
 };
