@@ -1,6 +1,7 @@
 ﻿#pragma once
-#include "ChessBoard.h"
 #include <iostream>
+
+#include "States/StateFactory.h"
 
 #define CLEAR system("cls");
 
@@ -8,23 +9,10 @@ class ChessEngine final
 {
 private:
 	IBoard* chessBoard;
+	StateFactory* stateFactory;
 
-	enum class game_state
-	{
-		decide,
-		select,
-		move,
-		exit,
-		invalid
-	};
-
-	game_state state = game_state::decide;
-	bool is_white_turn = true;
-
-	std::string from;
-	std::string to;
-	std::string cmd;
-	std::string message;
+	GameState game_state = GameState::decide;
+	IState* current_state;
 
 	bool is_running_ = true;
 
@@ -32,10 +20,10 @@ private:
 	void change_turn();
 
 public:
-
 	ChessEngine();
 
 	void run();
 	void new_match() const;
+	bool check_move(std::string from, std::string to);
 
 };

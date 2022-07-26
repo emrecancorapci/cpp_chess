@@ -9,5 +9,5 @@ private :
 public:
 	Bishop(const vector2& pos, const bool& is_white) : Piece(pos, is_white, 'B') {}
 
-	void show_moves(std::vector<std::vector<Piece>> board) const override;
+	void show_moves(const std::vector<std::vector<Piece>>& board) const override;
 };

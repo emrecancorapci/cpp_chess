@@ -16,6 +16,8 @@ private:
 
 	std::vector<std::vector<Piece*>>* get_board();
 
+	bool is_white_turn = true;
+
 	Piece* get_piece(const std::string& position) const;
 	Piece* get_piece(const int& x, const int& y) const;
 	Piece* get_piece(const vector2& vector) const;
@@ -31,9 +33,11 @@ public:
 
 	void new_board() override;
 
-	bool update(const std::string& from, const std::string& target) override;
+	bool update(const std::string& home, const std::string& target) override;
 	bool check_move(const std::string& home, const std::string& target) override;
 	void draw(const std::string& message) const override;
 
-	bool is_playable(const std::string& pos, const bool& is_turn_white) const override;
+	bool is_playable(const std::string& pos) const override;
+
+	void change_turn() override;
 };

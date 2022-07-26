@@ -1,6 +1,6 @@
 ﻿#include "Pawn.h"
 
-void Pawn::show_moves(std::vector<std::vector<Piece>> board) const
+void Pawn::show_moves(const std::vector<std::vector<Piece>>& board) const
 {
 
 }

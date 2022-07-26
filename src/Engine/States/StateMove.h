@@ -1,8 +1,13 @@
 ﻿#pragma once
-#include "StateBase.h"
+#include "IState.h"
 
-class StateMove : public StateBase
+class StateMove final : public IState
 {
+private:
+	IBoard* board;
+	std::string message;
 public:
-	void init_state(const bool& is_turn_white) const override;
+	explicit StateMove(IBoard* board);
+	GameState init_state() override;
+	std::string& get_message() override;
 };

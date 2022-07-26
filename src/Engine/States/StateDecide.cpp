@@ -1,17 +1,31 @@
 ﻿#include "StateDecide.h"
 
-void StateDecide::init_state(const bool& is_turn_white) const
+StateDecide::StateDecide(IBoard* board)
 {
-	//std::string command;
+	this->board = board;
+}
 
-	//std::cout << "Decide (move, exit) :" << std::endl;
-	//std::cin >> command;
+GameState StateDecide::init_state()
+{
+	std::string command;
 
-	//if (command == "exit")
-	//	factory.set_state(state_factory::get_state_exit());
-	//else if (command == "move")
-	//{
-	//	factory.set_state(state_factory::get_state_move());
-	//	message = is_turn_white ? "White turn." : "Black turn.";
-	//}
+	std::cout << "Decide (move, exit) :" << std::endl;
+	std::cin >> command;
+
+	if (command == "exit") return GameState::exit;
+
+	if (command == "move")
+	{
+		return GameState::move;
+	}
+	else 
+	{
+		std::cout << "Invalid command" << std::endl;
+		return GameState::decide;
+	}
+}
+
+std::string& StateDecide::get_message()
+{
+	return message;
 }

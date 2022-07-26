@@ -1,11 +1,14 @@
 ﻿#pragma once
-#include "StateBase.h"
+#include "IState.h"
 #include <iostream>
 
-class StateDecide : public StateBase
+class StateDecide : public IState
 {
 private:
-	
+	IBoard* board;
+	std::string message;
 public:
-	void init_state(const bool& is_turn_white) const override;
+	explicit StateDecide(IBoard* board);
+	GameState init_state() override;
+	std::string& get_message() override;
 };

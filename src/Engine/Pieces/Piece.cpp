@@ -8,6 +8,12 @@ Piece::Piece(const vector2& pos, const bool& is_white, const char& type)
 	moved = false;
 }
 
+
+vector2 Piece::get_position() const
+{
+	return position;
+}
+
 char Piece::get_state() const
 {
 	return selected ? states[1] : targeted ? states[2] : states[0];
@@ -49,11 +55,6 @@ void Piece::set_position(const vector2& pos)
 	position = pos;
 }
 
-vector2 Piece::get_position() const
-{
-	return position;
-}
-
 void Piece::set_color(const bool& set)
 {
 	is_white = set;
@@ -88,7 +89,7 @@ vector2 vector2::operator+(const vector2& vec2) const
 
 void Piece::draw_piece() const
 {
-	SetConsoleTextAttribute(console_color, (is_white ? 143: 128));
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (is_white ? 143: 128));
 
 	std::cout << get_state() << type_txt << get_state();
 }

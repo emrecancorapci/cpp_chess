@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Piece.h"
 
-class Rock : public Piece
+class Rock final: public Piece
 {
 private :
 	const char type_char = 'R';
@@ -9,5 +9,5 @@ private :
 public:
 	Rock(const vector2& pos, const bool& is_white) : Piece(pos, is_white, 'R') {}
 
-	void show_moves(std::vector<std::vector<Piece>> board) const override;
+	void show_moves(const std::vector<std::vector<Piece>>& board) const override;
 };
