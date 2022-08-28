@@ -1,30 +1,23 @@
 #include "ChessEngine.h"
 
-#include "States/StateFactory.h"
-#include "States/IState.h"
-
-ChessEngine::ChessEngine()
-{
-	chessBoard = new ChessBoard;
-	stateFactory = new StateFactory(chessBoard);
-	current_state = stateFactory->set_state(game_state);
-
-	new_match();
-}
-
 void ChessEngine::new_match() const
 {
-	chessBoard->new_board();
+	_chessBoard->new_board();
 }
 
-void ChessEngine::run()
+void ChessEngine::run() const
 {
-	while(is_running_)
-	{
-		current_state = stateFactory->set_state(game_state);
-		game_state = current_state->init_state();
-		chessBoard->draw(current_state->get_message());
+	GameState gameState = GameState::decide;
+	bool isRunning = true;
 
-		CLEAR
+	_chessBoard->new_board();
+	_stateFactory->set_state(gameState);
+
+	while(isRunning)
+	{
+		std::string message = _messageHandler->get_message();
+		_chessBoard->draw(message);
+		gameState = _stateFactory->set_state(gameState)->init_state();
 	}
 }
+

@@ -1,29 +1,19 @@
 ﻿#pragma once
-#include <iostream>
-
 #include "States/StateFactory.h"
+#include "Helpers/MessageHandler.h"
+#include "States/IState.h"
 
-#define CLEAR system("cls");
-
-class ChessEngine final
+class ChessEngine
 {
 private:
-	IBoard* chessBoard;
-	StateFactory* stateFactory;
-
-	GameState game_state = GameState::decide;
-	IState* current_state;
-
-	bool is_running_ = true;
-
-	int change_state();
-	void change_turn();
+	IBoard* _chessBoard;
+	StateFactory* _stateFactory;
+	MessageHandler* _messageHandler;
 
 public:
-	ChessEngine();
+	ChessEngine(IBoard* board, StateFactory* factory, MessageHandler* handler):
+	_chessBoard(board), _stateFactory(factory), _messageHandler(handler){}
 
-	void run();
+	void run() const;
 	void new_match() const;
-	bool check_move(std::string from, std::string to);
-
 };

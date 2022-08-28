@@ -1,14 +1,16 @@
 ﻿#pragma once
-#include "IState.h"
 #include <iostream>
+#include "IState.h"
+#include "../Helpers/MessageHandler.h"
 
-class StateDecide : public IState
+class StateDecide final : public IState
 {
 private:
-	IBoard* board;
-	std::string message;
+	IBoard* _board;
+	MessageHandler* _messageHandler;
 public:
-	explicit StateDecide(IBoard* board);
+	StateDecide(IBoard* board, MessageHandler* messageHandler)
+	: _board(board), _messageHandler(messageHandler){}
+
 	GameState init_state() override;
-	std::string& get_message() override;
 };

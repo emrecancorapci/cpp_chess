@@ -5,6 +5,7 @@
 
 #include "IBoard.h"
 #include "PieceFactory.h"
+#include "Helpers/Logger.h"
 
 #define ROW 8
 #define COLUMN 8
@@ -12,24 +13,22 @@
 class ChessBoard final : public IBoard
 {
 private:
-	std::vector<std::vector<Piece*>> board;
+	std::vector<std::vector<Piece*>> _board;
+	Logger* _logger;
 
-	std::vector<std::vector<Piece*>>* get_board();
+	bool _isWhiteTurn = true;
 
-	bool is_white_turn = true;
-
+	Piece* get_piece(const std::string& position);
 	Piece* get_piece(const std::string& position) const;
-	Piece* get_piece(const int& x, const int& y) const;
-	Piece* get_piece(const vector2& vector) const;
 
 	void move_piece(const std::string& home, const std::string& target);
 	void clear_pos(const std::string& pos);
 
 	void empty_board();
-	void fill_board(const bool& is_white);
+	void fill_board(const bool& isWhite);
 
 public:
-	ChessBoard();
+	explicit ChessBoard(Logger* logger) : _logger(logger) {}
 
 	void new_board() override;
 

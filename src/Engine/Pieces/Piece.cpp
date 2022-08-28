@@ -1,95 +1,63 @@
 ﻿#include "Piece.h"
 
-Piece::Piece(const vector2& pos, const bool& is_white, const char& type)
-: type_txt(type), position(pos), is_white(is_white)
-{
-	selected = false;
-	targeted = false;
-	moved = false;
-}
+Piece::Piece(const Vector2& pos, const bool& isWhite, const char& type)
+: _typeTxt(type), _position(pos), _isWhite(isWhite), _selected(false), _targeted(false), _moved(false)
+{}
 
 
-vector2 Piece::get_position() const
+Vector2 Piece::get_position() const
 {
-	return position;
+	return _position;
 }
 
 char Piece::get_state() const
 {
-	return selected ? states[1] : targeted ? states[2] : states[0];
+	return _selected ? _states[1] : _targeted ? _states[2] : _states[0];
 }
 
 bool Piece::get_color() const
 {
-	return is_white;
+	return _isWhite;
 }
 
 bool Piece::is_selected() const
 {
-	return selected;
+	return _selected;
 }
 
 bool Piece::is_targeted() const
 {
-	return targeted;
-}
-
-bool Piece::check_type(const Piece& piece) const
-{
-	return typeid(this).name() == typeid(piece).name();
-}
-
-template <class T>
-bool Piece::check_type() const
-{
-	return typeid(this).name() == typeid(T).name();
+	return _targeted;
 }
 
 void Piece::set_position(const int& x, const int& y)
 {
-	position = {x,y};
+	_position = {x,y};
 }
 
-void Piece::set_position(const vector2& pos)
+void Piece::set_position(const Vector2& pos)
 {
-	position = pos;
+	_position = pos;
 }
 
 void Piece::set_color(const bool& set)
 {
-	is_white = set;
+	_isWhite = set;
 }
 
 void Piece::set_selected(const bool& set)
 {
-	selected = set;
+	_selected = set;
 }
 
 void Piece::set_targeted(const bool& set)
 {
-	targeted = set;
-}
-
-vector2 convert_vector2(const std::string& pos)
-{
-	const int y = static_cast<int>(pos[1])-48;
-	const int x = static_cast<int>(pos[0])-96;
-	return {8-y,x-1};
-}
-
-vector2 vector2::operator-(const vector2& vec2) const
-{
-	return {this->x - vec2.x, this->y - vec2.y};
-}
-
-vector2 vector2::operator+(const vector2& vec2) const
-{
-	return {this->x + vec2.x, this->y + vec2.y};
+	_targeted = set;
 }
 
 void Piece::draw_piece() const
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (is_white ? 143: 128));
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (_isWhite ? 143: 128));
 
-	std::cout << get_state() << type_txt << get_state();
+	std::cout << get_state() << _typeTxt << get_state();
 }

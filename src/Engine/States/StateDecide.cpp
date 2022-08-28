@@ -1,10 +1,5 @@
 ﻿#include "StateDecide.h"
 
-StateDecide::StateDecide(IBoard* board)
-{
-	this->board = board;
-}
-
 GameState StateDecide::init_state()
 {
 	std::string command;
@@ -23,9 +18,4 @@ GameState StateDecide::init_state()
 		std::cout << "Invalid command" << std::endl;
 		return GameState::decide;
 	}
-}
-
-std::string& StateDecide::get_message()
-{
-	return message;
 }

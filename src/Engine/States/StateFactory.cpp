@@ -1,12 +1,12 @@
 ﻿#include "StateFactory.h"
 
-StateFactory::StateFactory(IBoard* board)
+StateFactory::StateFactory(IBoard* board, MessageHandler* messageHandler)
 {
-	map_state.insert(std::pair<GameState, IState*>(GameState::decide, new StateDecide(board)));
-	map_state.insert(std::pair<GameState, IState*>(GameState::move, new StateMove(board)));
+	_mapState.insert(std::pair<GameState, IState*>(GameState::decide, new StateDecide(board, messageHandler)));
+	_mapState.insert(std::pair<GameState, IState*>(GameState::move, new StateMove(board, messageHandler)));
 }
 
-IState* StateFactory::set_state(const GameState& state_name)
+IState* StateFactory::set_state(const GameState& stateName)
 {
-	return map_state[state_name];
+	return _mapState[stateName];
 }

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "IState.h"
 #include "../ChessBoard.h"
+#include "../Helpers/MessageHandler.h"
 #include "StateDecide.h"
 #include "StateMove.h"
 
@@ -9,14 +10,9 @@
 class StateFactory
 {
 private:
-	std::map<GameState, IState*> map_state;
+	std::map<GameState, IState*> _mapState;
 public:
-	explicit StateFactory(IBoard* board);
+	explicit StateFactory(IBoard* board, MessageHandler* messageHandler);
 
-	IState* set_state(const GameState& state_name);
-
-	static GameState get_state_decide() { return GameState::decide; }
-	static GameState get_state_select() { return GameState::select; }
-	static GameState get_state_move() { return GameState::move; }
-	static GameState get_state_exit() { return GameState::exit; }
+	IState* set_state(const GameState& stateName);
 };

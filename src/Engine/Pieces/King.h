@@ -7,7 +7,7 @@ private :
 	const char type_char = 'K';
 	
 public:
-	King(const vector2& pos, const bool& is_white) : Piece(pos, is_white, 'K') {}
+	King(const Vector2& pos, const bool& is_white) : Piece(pos, is_white, 'K') {}
 
 	void show_moves(const std::vector<std::vector<Piece>>& board) const override;
 };

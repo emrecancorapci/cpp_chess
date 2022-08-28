@@ -1,26 +1,17 @@
 ﻿#include "ChessBoard.h"
+#include "Helpers/Vector2.h"
 
 #include <thread>
-
-ChessBoard::ChessBoard()
-{
-	empty_board();
-}
-
-std::vector<std::vector<Piece*>>* ChessBoard::get_board()
-{
-	return &board;
-}
 
 void ChessBoard::new_board()
 {
 	empty_board();
 
-	std::thread white_filler([&]{fill_board(true);});
-	std::thread black_filler([&]{fill_board(false);});
+	std::thread whiteFiller([&]{fill_board(true);});
+	std::thread blackFiller([&]{fill_board(false);});
 
-	white_filler.join();
-	black_filler.join();
+	whiteFiller.join();
+	blackFiller.join();
 }
 
 bool ChessBoard::update(const std::string& home, const std::string& target)
@@ -33,7 +24,7 @@ bool ChessBoard::update(const std::string& home, const std::string& target)
 
 void ChessBoard::empty_board()
 {
-	board = std::vector(
+	_board = std::vector(
 		ROW,std::vector<Piece*>(
 		COLUMN, nullptr));
 }
@@ -41,33 +32,33 @@ void ChessBoard::empty_board()
 void ChessBoard::fill_board(const bool& is_white)
 {
 	const int row{is_white? 7 : 0};
-	const int pawn_row{is_white? 6 : 1};	
+	const int pawnRow{is_white? 6 : 1};	
 
-	std::thread non_pawn_filler([&]{
-		board[row][0] = PieceFactory::create_rock(vector2{ row,0 }, is_white);
-		board[row][1] = PieceFactory::create_knight(vector2{row,1}, is_white);
-		board[row][2] = PieceFactory::create_bishop(vector2{row,2}, is_white);
-		board[row][3] = PieceFactory::create_queen(vector2{row,3}, is_white);
-		board[row][4] = PieceFactory::create_king(vector2{row,4}, is_white);
-		board[row][5] = PieceFactory::create_bishop(vector2{row,5}, is_white);
-		board[row][6] = PieceFactory::create_knight(vector2{row,6}, is_white);
-		board[row][7] = PieceFactory::create_rock(vector2{row,7}, is_white);
+	std::thread nonPawnFiller([&]{
+		_board[row][0] = PieceFactory::create_rock(Vector2{ row,0 }, is_white);
+		_board[row][1] = PieceFactory::create_knight(Vector2{row,1}, is_white);
+		_board[row][2] = PieceFactory::create_bishop(Vector2{row,2}, is_white);
+		_board[row][3] = PieceFactory::create_queen(Vector2{row,3}, is_white);
+		_board[row][4] = PieceFactory::create_king(Vector2{row,4}, is_white);
+		_board[row][5] = PieceFactory::create_bishop(Vector2{row,5}, is_white);
+		_board[row][6] = PieceFactory::create_knight(Vector2{row,6}, is_white);
+		_board[row][7] = PieceFactory::create_rock(Vector2{row,7}, is_white);
 	});
 
-	std::thread pawn_filler([&]{
+	std::thread pawnFiller([&]{
 		for (int i = 0; i < COLUMN; i++)
 		{	
-			board[pawn_row][i] = PieceFactory::create_pawn(vector2{pawn_row,i}, is_white);
+			_board[pawnRow][i] = PieceFactory::create_pawn(Vector2{pawnRow,i}, is_white);
 		}
 	});
 
-	non_pawn_filler.join();
-	pawn_filler.join();
+	nonPawnFiller.join();
+	pawnFiller.join();
 }
 
 void ChessBoard::change_turn()
 {
-	is_white_turn = !is_white_turn;
+	_isWhiteTurn = !_isWhiteTurn;
 }
 
 
@@ -82,7 +73,9 @@ bool ChessBoard::check_move(const std::string& home, const std::string& target)
 
 void ChessBoard::draw(const std::string& message) const
 {
-	for (const auto& row : board)
+	system("cls");
+
+	for (const auto& row : _board)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 136);
 
@@ -95,7 +88,7 @@ void ChessBoard::draw(const std::string& message) const
 				piece->draw_piece();
 				continue;
 			}
-			printf("  ");
+			printf("   ");
 		}
 		printf("\n");
 	}
@@ -110,41 +103,46 @@ void ChessBoard::draw(const std::string& message) const
 bool ChessBoard::is_playable(const std::string& pos) const
 {
 	const auto piece = get_piece(pos);
+	const bool isPieceNull = piece == nullptr;
 
-	if(piece == nullptr) return false;
+	if(isPieceNull) return false;
 
-	return piece->get_color() == is_white_turn && piece != nullptr;
+	const bool isPlayable = piece->get_color() == _isWhiteTurn && !isPieceNull;
+
+	piece->set_selected(isPlayable);
+	return isPlayable;
 }
 
 void ChessBoard::move_piece(const std::string& home, const std::string& target)
 {
-	const auto [home_x, home_y] = convert_vector2(home);
-	const auto [target_x, target_y] = convert_vector2(target);
+	const auto vHome = convert_vector2(home);
+	const auto vTarget = convert_vector2(target);
 
-	delete board[target_x][target_y];
-	board[target_x][target_y] = board[home_x][home_y];
+	delete _board[vTarget.x][vTarget.y];
+	_board[vTarget.x][vTarget.y] = _board[vHome.x][vHome.y];
 
-	board[target_x][target_y]->set_selected(false);
-	board[target_x][target_y]->set_position(target_x, target_y);
+	_board[vTarget.x][vTarget.y]->set_selected(false);
+	_board[vTarget.x][vTarget.y]->set_position(vTarget.x, vTarget.y);
+
+	_logger->log_move(vHome, vTarget);
 }
 
 void ChessBoard::clear_pos(const std::string& pos)
 {
 	const auto [x, y] = convert_vector2(pos);
-	board[x][y] = nullptr;
+	_board[x][y] = nullptr;
+}
+
+Piece* ChessBoard::get_piece(const std::string& position)
+{
+	const auto [x, y] = convert_vector2(position);
+
+	return _board[x][y];
 }
 
 Piece* ChessBoard::get_piece(const std::string& position) const
 {
 	const auto [x, y] = convert_vector2(position);
 
-	return board[x][y];
-}
-Piece* ChessBoard::get_piece(const int& x, const int& y) const
-{
-	return board[x][y];
-}
-Piece* ChessBoard::get_piece(const vector2& vector) const
-{
-	return board[vector.x][vector.y];
+	return _board[x][y];
 }

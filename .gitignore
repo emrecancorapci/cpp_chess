@@ -37,3 +37,4 @@
 *.vcxproj.user
 .vs/
 bin/
+.sln.DotSettings.user

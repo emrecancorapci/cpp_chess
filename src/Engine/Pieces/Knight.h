@@ -7,7 +7,7 @@ private :
 	const char type_char = 'H';
 
 public:
-	Knight(const vector2& pos, const bool& is_white) : Piece(pos, is_white, 'H') {}
+	Knight(const Vector2& pos, const bool& is_white) : Piece(pos, is_white, 'H') {}
 
 	void show_moves(const std::vector<std::vector<Piece>>& board) const override;
 };

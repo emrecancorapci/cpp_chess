@@ -1,7 +1,15 @@
 #include "Engine/ChessEngine.h"
+#include "Engine/Helpers/Logger.h"
 
 int main()
 {
-	ChessEngine engine;
-	engine.run();
+	Logger* logger = new Logger;
+	IBoard* classicChessBoard = new ChessBoard(logger);
+	auto* messageHandler = new MessageHandler;
+
+	auto* stateFactory = new StateFactory(classicChessBoard, messageHandler);
+
+	const auto engine = new ChessEngine(classicChessBoard, stateFactory, messageHandler);
+
+	engine->run();
 }

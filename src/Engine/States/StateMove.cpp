@@ -1,10 +1,6 @@
-﻿#include "StateMove.h"
-#include <iostream>
+﻿#include <iostream>
 
-StateMove::StateMove(IBoard* board)
-{
-	this->board = board;
-}
+#include "StateMove.h"
 
 GameState StateMove::init_state()
 {
@@ -14,36 +10,29 @@ GameState StateMove::init_state()
 	std::cout << "Select :\n";
 	std::cin >> from;
 
-	const bool is_selectable = board->is_playable(from);
+	const bool isSelectable = _board->is_playable(from);
 
-	if(!is_selectable)
+	if(!isSelectable)
 	{
-		message = "Invalid selection";
+		_messageHandler->set_message("Invalid selection");
 		return GameState::move;
 	}
 
-	// Movement of the piece
 
-	message = from + " selected.";
-	board->draw(message);
+	_board->draw(from + " selected");
 
 	std::cout << "Move :\n";
 	std::cin >> to;
 	std::cout << from << "-" << to;
 
-	const bool is_playable = board->check_move(from, to);
+	const bool isPlayable = _board->check_move(from, to);
 
-	if (is_playable)
+	if (isPlayable)
 	{
-		board->update(from,  to);
-		message = from + " moved to " + to;
-		board->change_turn();
+		_board->update(from,  to);
+		_messageHandler->set_message(from + " moved to " + to);
+		_board->change_turn();
 	}
 
 	return GameState::decide;
-}
-
-std::string& StateMove::get_message()
-{
-	return message;
 }

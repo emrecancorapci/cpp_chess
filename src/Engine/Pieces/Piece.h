@@ -2,46 +2,37 @@
 #include <Windows.h>
 #include <iostream>
 #include <vector>
+#include "../Helpers/Vector2.h"
 
-struct vector2
-{
-	int x,y;
-	vector2 operator-(const vector2& vec2) const;
-	vector2 operator+(const vector2& vec2) const;
-};
-
-vector2 convert_vector2(const std::string& pos);
-	
 class Piece
 {
 protected:
-	Piece(const vector2& pos, const bool& is_white, const char& type);
+	Piece(const Vector2& pos, const bool& isWhite, const char& type);
 
-	const char states[3] = {' ', '_', '|'};
-	char type_txt;
+	const char _states[3] = {' ', '_', '|'};
+	char _typeTxt;
 
-	vector2 position;
-	bool is_white;
+	Vector2 _position;
+	bool _isWhite;
 
-	bool selected;
-	bool targeted;
+	bool _selected;
+	bool _targeted;
 
-	bool moved;
+	bool _moved;
 	
 public:
 	virtual ~Piece() = default;
 
-	vector2 get_position() const;
+	Vector2 get_position() const;
 	char get_state() const;
 	bool get_color() const;
 	bool is_selected() const;
 	bool is_targeted() const;
 
 	bool check_type(const Piece& piece) const;
-	template <class T> bool check_type() const;
 
 	void set_position(const int& x, const int& y);
-	void set_position(const vector2& pos);
+	void set_position(const Vector2& pos);
 	void set_color(const bool& set);
 	void set_selected(const bool& set);
 	void set_targeted(const bool& set);
