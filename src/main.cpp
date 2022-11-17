@@ -1,15 +1,18 @@
 #include "Engine/ChessEngine.h"
-#include "Engine/Helpers/Logger.h"
+#include "config.h"
+#include "Engine/Modes/Classic/Classic.h"
 
 int main()
 {
-	Logger* logger = new Logger;
-	IBoard* classicChessBoard = new ChessBoard(logger);
-	auto* messageHandler = new MessageHandler;
+	Config config;
+	Classic classic(config.getLogger(), config.getMsgHandler());
 
-	auto* stateFactory = new StateFactory(classicChessBoard, messageHandler);
-
-	const auto engine = new ChessEngine(classicChessBoard, stateFactory, messageHandler);
+	const auto engine = new ChessEngine
+	(
+		classic.getBoard(),
+		classic.getStateFactory(),
+		config.getMsgHandler()
+	);
 
 	engine->run();
 }

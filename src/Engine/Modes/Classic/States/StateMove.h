@@ -1,6 +1,7 @@
 ﻿#pragma once
-#include "IState.h"
-#include "../Helpers/MessageHandler.h"
+
+#include "../../../IState.h"
+#include "../../../Helpers/MessageHandler.h"
 
 class StateMove final : public IState
 {

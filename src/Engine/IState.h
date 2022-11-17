@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../IBoard.h"
+#include "IBoard.h"
 
 enum class GameState
 {

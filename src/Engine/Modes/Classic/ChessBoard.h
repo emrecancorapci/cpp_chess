@@ -3,9 +3,9 @@
 #include <vector>
 #include <iostream>
 
-#include "IBoard.h"
+#include "../../Helpers/Logger.h"
+#include "../../IBoard.h"
 #include "PieceFactory.h"
-#include "Helpers/Logger.h"
 
 #define ROW 8
 #define COLUMN 8
@@ -28,7 +28,7 @@ private:
 	void fill_board(const bool& isWhite);
 
 public:
-	explicit ChessBoard(Logger* logger) : _logger(logger) {}
+	explicit ChessBoard(Logger* logger) : _logger(std::move(logger)) {}
 
 	void new_board() override;
 

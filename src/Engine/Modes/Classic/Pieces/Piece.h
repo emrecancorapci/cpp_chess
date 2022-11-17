@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <iostream>
 #include <vector>
-#include "../Helpers/Vector2.h"
+#include "../../../Helpers/Vector2.h"
 
 class Piece
 {

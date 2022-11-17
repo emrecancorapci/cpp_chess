@@ -1,7 +1,7 @@
-﻿#include "ChessBoard.h"
-#include "Helpers/Vector2.h"
+﻿#include <thread>
 
-#include <thread>
+#include "../../Helpers/Vector2.h"
+#include "ChessBoard.h"
 
 void ChessBoard::new_board()
 {
@@ -35,7 +35,7 @@ void ChessBoard::fill_board(const bool& is_white)
 	const int pawnRow{is_white? 6 : 1};	
 
 	std::thread nonPawnFiller([&]{
-		_board[row][0] = PieceFactory::create_rock(Vector2{ row,0 }, is_white);
+		_board[row][0] = PieceFactory::create_rock(Vector2{row,0}, is_white);
 		_board[row][1] = PieceFactory::create_knight(Vector2{row,1}, is_white);
 		_board[row][2] = PieceFactory::create_bishop(Vector2{row,2}, is_white);
 		_board[row][3] = PieceFactory::create_queen(Vector2{row,3}, is_white);

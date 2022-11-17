@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <map>
+
 #include "Vector2.h"
 
 class Logger

@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include <iostream>
-#include "IState.h"
-#include "../Helpers/MessageHandler.h"
+
+#include "../../../IState.h"
+#include "../../../Helpers/MessageHandler.h"
 
 class StateDecide final : public IState
 {
