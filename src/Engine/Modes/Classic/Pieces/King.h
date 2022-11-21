@@ -1,13 +1,13 @@
 ﻿#pragma once
 #include "Piece.h"
 
-class King final : public Piece
+namespace classic
 {
-private :
-	const char type_char = 'K';
-	
-public:
-	King(const Vector2& pos, const bool& is_white) : Piece(pos, is_white, 'K') {}
+	class King final : public Piece
+	{
+	public:
+		King(const Vector2& pos, const bool& isWhite) : Piece(pos, isWhite, 'K') {}
 
-	void show_moves(const std::vector<std::vector<Piece>>& board) const override;
-};
+		void show_moves(const std::vector<std::vector<Piece>>& board) const override;
+	};
+}

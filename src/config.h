@@ -1,14 +1,13 @@
 #pragma once
 #include "Engine/Helpers/Logger.h"
 #include "Engine/Helpers/MessageHandler.h"
-#include "Engine/IBoard.h"
 
 class Config
 {
 private:
-	Logger* logger = new Logger;
-	MessageHandler* msgHandler = new MessageHandler;
+	Logger* _logger = new Logger;
+	MessageHandler* _msgHandler = new MessageHandler;
 public:
-	Logger* getLogger() { return logger; }
-	MessageHandler* getMsgHandler() { return msgHandler; }
+	Logger* get_logger() const { return _logger; }
+	MessageHandler* get_msg_handler() const { return _msgHandler; }
 };

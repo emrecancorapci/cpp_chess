@@ -1,21 +1,21 @@
 ﻿#include "StateDecide.h"
 
-GameState StateDecide::init_state()
+#include <iostream>
+
+namespace classic
 {
-	std::string command;
-
-	std::cout << "Decide (move, exit) :" << std::endl;
-	std::cin >> command;
-
-	if (command == "exit") return GameState::exit;
-
-	if (command == "move")
+	engine::GameState StateDecide::init_state()
 	{
-		return GameState::move;
-	}
-	else 
-	{
+		std::string command;
+
+		std::cout << "Decide (move, exit) :" << std::endl;
+		std::cin >> command;
+
+		if (command == "exit") return engine::GameState::exit;
+
+		if (command == "move") return engine::GameState::move;
+
 		std::cout << "Invalid command" << std::endl;
-		return GameState::decide;
+		return engine::GameState::decide;
 	}
 }

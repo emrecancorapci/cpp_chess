@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include <Windows.h>
-#include <iostream>
 #include <vector>
 #include "../../../Helpers/Vector2.h"
 
@@ -14,10 +12,8 @@ protected:
 
 	Vector2 _position;
 	bool _isWhite;
-
 	bool _selected;
 	bool _targeted;
-
 	bool _moved;
 	
 public:
@@ -29,7 +25,7 @@ public:
 	bool is_selected() const;
 	bool is_targeted() const;
 
-	bool check_type(const Piece& piece) const;
+	// bool check_type(const Piece& piece) const;
 
 	void set_position(const int& x, const int& y);
 	void set_position(const Vector2& pos);

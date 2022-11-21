@@ -1,8 +1,12 @@
 #pragma once
 #include "IState.h"
 
-class IStateFactory
+namespace engine
 {
-public:
-	virtual IState* set_state(const GameState& stateName) = 0;
-};
+	class IStateFactory
+	{
+	public:
+		virtual ~IStateFactory() = default;
+		virtual IState* set_state(const GameState& stateName) = 0;
+	};
+}

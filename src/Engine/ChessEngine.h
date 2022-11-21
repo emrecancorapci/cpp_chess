@@ -1,20 +1,22 @@
 ﻿#pragma once
-#include "IStateFactory.h"
-#include "IState.h"
-
 #include "Helpers/MessageHandler.h"
 
-class ChessEngine
+#include "IStateFactory.h"
+#include "IBoard.h"
+
+namespace engine
 {
-private:
-	IBoard* _chessBoard;
-	IStateFactory* _stateFactory;
-	MessageHandler* _messageHandler;
+	class ChessEngine
+	{
+		IBoard* _chessBoard;
+		IStateFactory* _stateFactory;
+		MessageHandler* _messageHandler;
 
-public:
-	ChessEngine(IBoard* board, IStateFactory* factory, MessageHandler* handler):
-	_chessBoard(std::move(board)), _stateFactory(std::move(factory)), _messageHandler(handler){}
+	public:
+		ChessEngine(IBoard* board, IStateFactory* factory, MessageHandler* handler);
 
-	void run() const;
-	void new_match() const;
-};
+		void run() const;
+		void new_match() const;
+	};
+
+}

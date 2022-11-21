@@ -1,12 +1,17 @@
 ﻿#include "StateFactory.h"
+#include "States/StateDecide.h"
+#include "States/StateMove.h"
 
-StateFactory::StateFactory(IBoard* board, MessageHandler* messageHandler)
+namespace classic
 {
-	_mapState.insert(std::pair<GameState, IState*>(GameState::decide, new StateDecide(board, messageHandler)));
-	_mapState.insert(std::pair<GameState, IState*>(GameState::move, new StateMove(board, messageHandler)));
-}
+	StateFactory::StateFactory(engine::IBoard* board, MessageHandler* messageHandler)
+	{
+		_mapState.insert(std::pair<engine::GameState, engine::IState*>(engine::GameState::decide, new StateDecide(board, messageHandler)));
+		_mapState.insert(std::pair<engine::GameState, engine::IState*>(engine::GameState::move, new StateMove(board, messageHandler)));
+	}
 
-IState* StateFactory::set_state(const GameState& stateName)
-{
-	return _mapState[stateName];
+	engine::IState* StateFactory::set_state(const engine::GameState& stateName)
+	{
+		return _mapState[stateName];
+	}
 }

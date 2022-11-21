@@ -1,17 +1,22 @@
 ﻿#pragma once
 
 #include "../../../IState.h"
+#include "../../../IBoard.h"
 #include "../../../Helpers/MessageHandler.h"
 
-class StateMove final : public IState
+namespace classic
 {
-private:
-	IBoard* _board;
-	MessageHandler* _messageHandler;
+	class StateMove final : public engine::IState
+	{
+	private:
+		engine::IBoard* _board;
+		MessageHandler* _messageHandler;
 
-public:
-	StateMove(IBoard* board, MessageHandler* messageHandler)
-	: _board(board), _messageHandler(messageHandler){}
+	public:
+		StateMove(engine::IBoard* board, MessageHandler* messageHandler)
+			: _board(board), _messageHandler(messageHandler) {}
 
-	GameState init_state() override;
-};
+		engine::GameState init_state() override;
+	};
+
+}

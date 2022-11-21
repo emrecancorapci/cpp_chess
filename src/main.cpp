@@ -1,17 +1,17 @@
 #include "Engine/ChessEngine.h"
 #include "config.h"
-#include "Engine/Modes/Classic/Classic.h"
+#include "Engine/Modes/Classic/config.h"
 
 int main()
 {
-	Config config;
-	Classic classic(config.getLogger(), config.getMsgHandler());
+	const Config config;
+	const classic::Config classic(config.get_logger(), config.get_msg_handler());
 
-	const auto engine = new ChessEngine
+	const auto engine = new engine::ChessEngine
 	(
-		classic.getBoard(),
-		classic.getStateFactory(),
-		config.getMsgHandler()
+		classic.get_board(),
+		classic.get_state_factory(),
+		config.get_msg_handler()
 	);
 
 	engine->run();

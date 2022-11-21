@@ -1,7 +1,10 @@
 ﻿#include "Piece.h"
 
+#include <Windows.h>
+
 Piece::Piece(const Vector2& pos, const bool& isWhite, const char& type)
-: _typeTxt(type), _position(pos), _isWhite(isWhite), _selected(false), _targeted(false), _moved(false)
+: _typeTxt(type), _position(pos), _isWhite(isWhite),
+  _selected(false), _targeted(false), _moved(false)
 {}
 
 
@@ -59,5 +62,5 @@ void Piece::draw_piece() const
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (_isWhite ? 143: 128));
 
-	std::cout << get_state() << _typeTxt << get_state();
+	printf("%c%s%c", get_state(), &_typeTxt, get_state());
 }

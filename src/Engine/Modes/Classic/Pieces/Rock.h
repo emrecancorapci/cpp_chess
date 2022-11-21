@@ -1,13 +1,15 @@
 ﻿#pragma once
 #include "Piece.h"
 
-class Rock final : public Piece
+namespace classic
 {
-private :
-	const char type_char = 'R';
+	class Rock final : public Piece
+	{
+		const char type_char = 'R';
 
-public:
-	Rock(const Vector2& pos, const bool& is_white) : Piece(pos, is_white, 'R') {}
+	public:
+		Rock(const Vector2& pos, const bool& isWhite) : Piece(pos, isWhite, 'R') {}
 
-	void show_moves(const std::vector<std::vector<Piece>>& board) const override;
-};
+		void show_moves(const std::vector<std::vector<Piece>>& board) const override;
+	};
+}
