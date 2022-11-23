@@ -1,7 +1,5 @@
 ﻿#include "Rock.h"
 
-#include <set>
-
 std::vector<Vector2> classic::Rock::show_moves(const std::vector<std::vector<Piece*>>& board) const
 {
 	const auto [x,y] = get_position();
