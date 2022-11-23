@@ -4,18 +4,13 @@
 
 Piece::Piece(const Vector2& pos, const bool& isWhite, const char& type)
 : _typeTxt(type), _position(pos), _isWhite(isWhite),
-  _selected(false), _targeted(false), _moved(false)
+  _isSelected(false), _targeted(false), _isMoved(false)
 {}
 
 
 Vector2 Piece::get_position() const
 {
 	return _position;
-}
-
-char Piece::get_state() const
-{
-	return _selected ? _states[1] : _targeted ? _states[2] : _states[0];
 }
 
 bool Piece::get_color() const
@@ -25,7 +20,7 @@ bool Piece::get_color() const
 
 bool Piece::is_selected() const
 {
-	return _selected;
+	return _isSelected;
 }
 
 bool Piece::is_targeted() const
@@ -50,7 +45,7 @@ void Piece::set_color(const bool& set)
 
 void Piece::set_selected(const bool& set)
 {
-	_selected = set;
+	_isSelected = set;
 }
 
 void Piece::set_targeted(const bool& set)
@@ -60,7 +55,9 @@ void Piece::set_targeted(const bool& set)
 
 void Piece::draw_piece() const
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (_isWhite ? 143: 128));
+	const WORD color = _isSelected ? 138 : _isWhite ? 143 : 128;
 
-	printf("%c%s%c", get_state(), &_typeTxt, get_state());
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+
+	printf(" %c ", _typeTxt);
 }

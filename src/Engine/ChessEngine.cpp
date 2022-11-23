@@ -13,7 +13,7 @@ namespace engine
 
 	void ChessEngine::run() const
 	{
-		GameState gameState = GameState::decide;
+		auto gameState = GameState::decide;
 		bool isRunning = true;
 		std::string message;
 

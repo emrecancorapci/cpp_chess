@@ -5,11 +5,11 @@ namespace classic
 {
 	class Rock final : public Piece
 	{
-		const char type_char = 'R';
+		const char _typeChar = 'R';
 
 	public:
 		Rock(const Vector2& pos, const bool& isWhite) : Piece(pos, isWhite, 'R') {}
 
-		void show_moves(const std::vector<std::vector<Piece>>& board) const override;
+		std::vector<Vector2> show_moves(const std::vector<std::vector<Piece*>>& board) const override;
 	};
 }

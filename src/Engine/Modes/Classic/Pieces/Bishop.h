@@ -10,6 +10,6 @@ namespace classic
 	public:
 		Bishop(const Vector2& pos, const bool& is_white) : Piece(pos, is_white, 'B') {}
 
-		void show_moves(const std::vector<std::vector<Piece>>& board) const override;
+		std::vector<Vector2> show_moves(const std::vector<std::vector<Piece*>>& board) const override;
 	};
 }

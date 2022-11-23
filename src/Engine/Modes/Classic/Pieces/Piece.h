@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <set>
 #include <vector>
 #include "../../../Helpers/Vector2.h"
 
@@ -7,14 +8,13 @@ class Piece
 protected:
 	Piece(const Vector2& pos, const bool& isWhite, const char& type);
 
-	const char _states[3] = {' ', '_', '|'};
 	char _typeTxt;
 
 	Vector2 _position;
 	bool _isWhite;
-	bool _selected;
+	bool _isSelected;
 	bool _targeted;
-	bool _moved;
+	bool _isMoved;
 	
 public:
 	virtual ~Piece() = default;
@@ -35,7 +35,7 @@ public:
 
 	void draw_piece() const;
 
-	virtual void show_moves(const std::vector<std::vector<Piece>>& board) const = 0;
+	virtual std::vector<Vector2> show_moves(const std::vector<std::vector<Piece*>>& board) const = 0;
 
 };
 
